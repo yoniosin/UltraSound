@@ -12,7 +12,8 @@ def dilate(input_mat, out_size):
 
 def DilateAll(folder_name, out_size):
     for file in os.listdir(folder_name):
-        sio.savemat('new' + file.__str__(), dilate(file, out_size))
+        new_file = dilate(file, out_size)
+        sio.savemat('new/' + file.__str__(), {'new_file': new_file})
 
 
 if __name__ == '__main__':
