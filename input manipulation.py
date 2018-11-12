@@ -11,11 +11,12 @@ def dilate(input_mat, out_size):
 
 
 def DilateAll(folder_name, out_size):
-    for file in os.listdir(folder_name):
-        new_file = dilate(file, out_size)
+    for file_name in os.listdir(folder_name):
+        file = sio.loadmat(folder_name + '/' + file_name)
+        new_file = dilate(file['mat'], out_size)
         sio.savemat('new/' + file.__str__(), {'new_file': new_file})
 
 
 if __name__ == '__main__':
     a = np.random.randint(100, size=(5, 5))
-    b = dilate(a, 3)
+    DilateAll('C:/Users/yonio/OneDrive/School/semester 8/New', 3)
