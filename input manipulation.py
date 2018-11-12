@@ -4,6 +4,7 @@ import os
 from scipy import io as sio
 import re
 
+
 def dilate(input_mat, out_size):
     dial_vec = random.sample(range(input_mat.shape[1]), out_size)
     dial_vec.sort()
@@ -17,12 +18,14 @@ def DilateAll(folder_name, out_size):
             file = sio.loadmat(folder_name + '/' + file_name)
             file_data = file['image_data']
             new_file = dilate(file_data, out_size)
-            sio.savemat('new/' + file_name, {'new_file': new_file})
-        elif re.search(r".*.bmpLR" , file_name):
-            file = sio.loadmat(folder_name + '/' + file_name)
-            sio.savemat('new/' + file_name, {'file': file})
+            sio.savemat(folder_name + '/new' + out_size.__str__() + '/' + file_name, {'new_file': new_file})
+        else:
+            match = re.search(r"(.*).bmpLR", file_name)
+            if match:
+                new_name = folder_name + '/images/' + match.group(1) + '.bmp'
+                os.rename(folder_name + '/' + file_name, new_name)
 
 
 if __name__ == '__main__':
-   # DilateAll('C:/Users/yonio/OneDrive/School/semester 8/New', 3)
-    DilateAll('/home/yonipeleg/PycharmProjects/UltraSound/image', 64)
+    for i in {64, 32, 16}:
+        DilateAll('/home/yonipeleg/PycharmProjects/UltraSound/image', i)
